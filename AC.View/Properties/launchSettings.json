@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AC.View (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "AC.View (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
