@@ -44,11 +44,17 @@
                             </TextBlock>
                             <TextBlock Margin="0,0,10,0" VerticalAlignment="Center">
                                 <Run Text="Name: " FontWeight="Bold"/>
-                                <Run Text="{Binding ProcessName}"/>
+                                <Run Text="{Binding Name}"/>                                
+                                <Run Text=" - " FontWeight="Bold"/>
+                                <Run Text="{Binding WindowTitle}"/>
                             </TextBlock>
+                            <Button Content="Show" Command="{Binding Source={StaticResource MainViewModel}, Path=ShowProcessCommand}" CommandParameter="{Binding}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.ItemContainerTransitions>
+                    <TransitionCollection/>
+                </ListView.ItemContainerTransitions>
             </ListView>
         </Grid>
     </Grid>

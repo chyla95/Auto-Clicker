@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AC.Model\AC.Model.csproj" />
+    <ProjectReference Include="..\AC.ProcessManager\AC.ProcessManager.csproj" />
   </ItemGroup>
 
 </Project>

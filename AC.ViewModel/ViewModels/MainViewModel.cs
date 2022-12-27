@@ -1,12 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using AC.ProcessManager;
+using AC.ViewModel.Utilities;
 
 namespace AC.ViewModel.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        private ObservableCollection<Process> _activeProcesses = new();
-        public ObservableCollection<Process> ActiveProcesses
+        private ObservableCollection<SystemProcess> _activeProcesses = new();
+        public ObservableCollection<SystemProcess> ActiveProcesses
         {
             get { return _activeProcesses; }
             set
@@ -16,6 +18,20 @@ namespace AC.ViewModel.ViewModels
             }
         }
 
+        public RelayCommand<SystemProcess> ShowProcessCommand { get; }
+        private void ShowProcessCommandExecute(SystemProcess? process)
+        {
+            Debug.WriteLine(process!.Id + " " + process.WindowHandle);
+            //process.ShowWindow();
+            //process.SendKey();
+            process.FlashWindow();
+            //process.SetWindowTitle("Tit");
+            Debug.WriteLine(process.GetWindowTitle());
+            process.SetWindowTitle($"[AC:{process.Id}] {process.GetWindowTitle()}");
+        }
+
+
+
         public int ActiveProcessCount
         {
             get
@@ -24,20 +40,23 @@ namespace AC.ViewModel.ViewModels
             }
         }
 
-        public MainViewModel()
+        public PeriodicTimer RefreshProcessListTimer { get; set; }
+        async Task HandleTimerAsync(PeriodicTimer timer)
         {
-            ActiveProcesses = new ObservableCollection<Process>(GetActiveProcesses());
+            while (await timer.WaitForNextTickAsync())
+            {
+                ActiveProcesses = new ObservableCollection<SystemProcess>(ProcessManager.ProcessManager.GetProcesses());
+            }
         }
 
-        private IEnumerable<Process> GetActiveProcesses()
+
+        public MainViewModel()
         {
-            Process applicationProcess = Process.GetCurrentProcess();
+            ActiveProcesses = new ObservableCollection<SystemProcess>(ProcessManager.ProcessManager.GetProcesses());
+            ShowProcessCommand = new RelayCommand<SystemProcess>(ShowProcessCommandExecute);
 
-            IEnumerable<Process> processes = Process.GetProcesses()
-                .Where(p => p.ProcessName != applicationProcess.ProcessName)
-                .Where(p => p.MainWindowHandle != IntPtr.Zero);
-
-            return processes;
+            RefreshProcessListTimer = new(TimeSpan.FromSeconds(1));
+            HandleTimerAsync(RefreshProcessListTimer);
         }
     }
 }
