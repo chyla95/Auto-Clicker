@@ -11,7 +11,7 @@ namespace AC.ProcessManager.Utilities.Wrappers
         // Calls the window procedure and sends the specified message.
         // Does not return until the window procedure has processed the message.
         [DllImport("User32.dll")]
-        private static extern IntPtr SendMessage([In, Optional] IntPtr hWnd, [In] uint Msg, [In] IntPtr wParam, [In] IntPtr lParam);
+        private static extern IntPtr SendMessage([In] IntPtr hWnd, [In] uint Msg, [In] IntPtr wParam, [In] IntPtr lParam);
 
         public static void PostMessageM(IntPtr windowHandle, uint message, IntPtr wParam, IntPtr lParam)
         {
