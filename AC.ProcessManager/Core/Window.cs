@@ -1,4 +1,7 @@
-﻿namespace AC.ProcessManager.Core
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
+
+namespace AC.ProcessManager.Core
 {
     public class Window
     {
@@ -233,6 +236,8 @@
             KEY_F11 = 0x7A,
             //F12 key
             KEY_F12 = 0x7B,
+            //NUM LOCK key
+            KEY_NUMLOCK = 0x90,
             //SCROLL LOCK key
             KEY_SCROLL = 0x91,
             //Left SHIFT key
@@ -263,11 +268,154 @@
             KeyDown = 0x100,
             KeyUp = 0x0101
         }
+
+
+        #region
+        /// <summary>
+        /// The MapVirtualKey function translates (maps) a virtual-key code into a scan
+        /// code or character value, or translates a scan code into a virtual-key code    
+        /// </summary>
+        /// <param name="uCode">[in] Specifies the virtual-key code or scan code for a key.
+        /// How this value is interpreted depends on the value of the uMapType parameter
+        /// </param>
+        /// <param name="uMapType">[in] Specifies the translation to perform. The value of this
+        /// parameter depends on the value of the uCode parameter.
+        /// </param>
+        /// <returns>Either a scan code, a virtual-key code, or a character value, depending on
+        /// the value of uCode and uMapType. If there is no translation, the return value is zero
+        /// </returns>
+        [DllImport("user32.dll")]
+        private static extern uint MapVirtualKey([In] uint uCode, [In] uint uMapType);
+        public enum MapVirtualKeyMapTypes : uint
+        {
+            /// <summary>
+            /// uCode is a virtual-key code and is translated into a scan code.
+            /// If it is a virtual-key code that does not distinguish between left- and
+            /// right-hand keys, the left-hand scan code is returned.
+            /// If there is no translation, the function returns 0.
+            /// </summary>
+            MAPVK_VK_TO_VSC = 0x00,
+
+            /// <summary>
+            /// uCode is a scan code and is translated into a virtual-key code that
+            /// does not distinguish between left- and right-hand keys. If there is no
+            /// translation, the function returns 0.
+            /// </summary>
+            MAPVK_VSC_TO_VK = 0x01,
+
+            /// <summary>
+            /// uCode is a virtual-key code and is translated into an unshifted
+            /// character value in the low-order word of the return value. Dead keys (diacritics)
+            /// are indicated by setting the top bit of the return value. If there is no
+            /// translation, the function returns 0.
+            /// </summary>
+            MAPVK_VK_TO_CHAR = 0x02,
+
+            /// <summary>
+            /// Windows NT/2000/XP: uCode is a scan code and is translated into a
+            /// virtual-key code that distinguishes between left- and right-hand keys. If
+            /// there is no translation, the function returns 0.
+            /// </summary>
+            MAPVK_VSC_TO_VK_EX = 0x03,
+
+            /// <summary>
+            /// Not currently documented
+            /// </summary>
+            MAPVK_VK_TO_VSC_EX = 0x04
+        }
+
+        private uint GetKeyScanCode(Keys VirtualKey)
+        {
+            uint ScanCode = MapVirtualKey((uint)VirtualKey, (uint)MapVirtualKeyMapTypes.MAPVK_VK_TO_VSC);
+            return ScanCode;
+        }
+
+        private bool IsKeyExtended(Keys VirtualKey)
+        {
+            bool isExtended = false;
+
+            if (
+                VirtualKey == Keys.KEY_RMENU ||
+                VirtualKey == Keys.KEY_RCONTROL ||
+
+                VirtualKey == Keys.KEY_LEFT ||
+                VirtualKey == Keys.KEY_RIGHT ||
+                VirtualKey == Keys.KEY_UP ||
+                VirtualKey == Keys.KEY_DOWN ||
+
+                VirtualKey == Keys.KEY_INSERT ||
+                VirtualKey == Keys.KEY_DELETE ||
+                VirtualKey == Keys.KEY_HOME ||
+                VirtualKey == Keys.KEY_END ||
+                VirtualKey == Keys.KEY_PRIOR ||
+                VirtualKey == Keys.KEY_NEXT ||
+
+                VirtualKey == Keys.KEY_DIVIDE ||
+                VirtualKey == Keys.KEY_NUMLOCK)
+            {
+                isExtended = true;
+            }
+
+            return isExtended;
+        }
+
+        private IntPtr CreateLPARAM_KeyUpDown(Keys VirtualKey, ushort RepeatCount, bool TransitionState, bool PreviousKeyState, bool ContextCode)
+        {
+            uint ScanCode = GetKeyScanCode(VirtualKey);
+            bool isExtended = IsKeyExtended(VirtualKey);
+
+            Debug.WriteLine("scanCode: " + ScanCode);
+            Debug.WriteLine("isExtended: " + isExtended);
+
+
+            return (IntPtr)((Convert.ToInt64(TransitionState) << 31) | (Convert.ToInt64(PreviousKeyState) << 30) | (Convert.ToInt64(ContextCode) << 29) | (Convert.ToInt64(isExtended) << 24) | (Convert.ToInt64(ScanCode) << 16) | Convert.ToInt64(RepeatCount));
+
+        }
+
+        private IntPtr CreateLPARAM_KeyDown(Keys VirtualKey, bool PreviousKeyState)
+        {
+            const ushort RepeatCount = 1; // Number of key-strokes to send AT THE SAME TIME. If set to e.g. 20, the action will resoult will be the same as pressing the key 20x separately
+            return CreateLPARAM_KeyUpDown(VirtualKey, RepeatCount, false, PreviousKeyState, false);
+        }
+
+        private IntPtr CreateLPARAM_KeyUp(Keys VirtualKey)
+        {
+            const ushort repeatCount = 1; // Number of key-strokes to send AT THE SAME TIME. If set to e.g. 20, the action will resoult will be the same as pressing the key 20x separately
+            const bool transitionState = true;
+            const bool previousKeyState = true;
+            const bool contextCode = false;
+            return CreateLPARAM_KeyUpDown(VirtualKey, repeatCount, transitionState, previousKeyState, contextCode);
+        }
+
+        #endregion
+
+
         public void SendKey()
         {
-            Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyDown, (IntPtr)Keys.KEY_UP, IntPtr.Zero);
-            Thread.Sleep(1122);
-            Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyUp, (IntPtr)Keys.KEY_UP, IntPtr.Zero);
+            //Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyDown, (IntPtr)Keys.KEY_SPACE, IntPtr.Zero);
+            //Thread.Sleep(1122);
+            //Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyUp, (IntPtr)Keys.KEY_SPACE, IntPtr.Zero);
+
+            var key = Keys.KEY_SHIFT;
+
+            //Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyDown, (IntPtr)key, CreateLPARAM_KeyDown(key, false)); // Key Down
+            //Thread.Sleep(100);
+            //Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyDown, (IntPtr)key, CreateLPARAM_KeyDown(key, true)); // Key Pressed Tick
+            //Thread.Sleep(100);
+            //Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyDown, (IntPtr)key, CreateLPARAM_KeyDown(key, true)); // Key Pressed Tick
+            //Thread.Sleep(1000);
+            //Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyUp, (IntPtr)key, CreateLPARAM_KeyUp(key)); // Key Up
+
+            Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyDown, (IntPtr)key, CreateLPARAM_KeyDown(key, false));
+            Thread.Sleep(100);
+
+            Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyDown, (IntPtr)Keys.KEY_A, CreateLPARAM_KeyDown(Keys.KEY_A, false));
+            Thread.Sleep(100);
+            Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyUp, (IntPtr)Keys.KEY_A, CreateLPARAM_KeyUp(Keys.KEY_A));
+            Thread.Sleep(100);
+
+            Utilities.Wrappers.Window.PostMessageM(Handle, (uint)KeyActions.KeyUp, (IntPtr)key, CreateLPARAM_KeyUp(key));
+            Thread.Sleep(100);
         }
     }
 }
