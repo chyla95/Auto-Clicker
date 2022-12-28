@@ -12,16 +12,16 @@ namespace AC.ProcessManager.Utilities.Wrappers
         [DllImport("user32.dll", BestFitMapping = false)]
         private static extern int GetWindowText([In] IntPtr hWnd, [Out] StringBuilder lpString, [In] uint nMaxCount);
 
-        public static void SetTitle(IntPtr windowHandle, string title)
+        public static void SetTextM(IntPtr windowHandle, string text)
         {
-            SetWindowText(windowHandle, title);
+            SetWindowText(windowHandle, text);
         }
-        public static string GetTitle(IntPtr windowHandle)
+        public static string GetTextM(IntPtr windowHandle)
         {
-            int titleLength = GetWindowTextLength(windowHandle);
-            StringBuilder title = new(titleLength + 1);
-            GetWindowText(windowHandle, title, (uint)title.Capacity);
-            return title.ToString();
+            int textLength = GetWindowTextLength(windowHandle);
+            StringBuilder text = new(textLength + 1);
+            _ = GetWindowText(windowHandle, text, (uint)text.Capacity);
+            return text.ToString();
         }
     }
 }

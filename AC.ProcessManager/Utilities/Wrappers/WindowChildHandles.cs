@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
 namespace AC.ProcessManager.Utilities.Wrappers
 {
@@ -22,13 +19,13 @@ namespace AC.ProcessManager.Utilities.Wrappers
         /// </summary>
         /// <param name="windowHandle">Parent of the windows to return</param>
         /// <returns>List of child windows</returns>
-        public static IEnumerable<IntPtr> GetWindowChildHandles(IntPtr windowHandle)
+        public static IEnumerable<IntPtr> GetChildWindowsHandlesM(IntPtr windowHandle)
         {
             IEnumerable<IntPtr> windowHandles = new List<IntPtr>();
             GCHandle managedWindowHandles = GCHandle.Alloc(windowHandles);
             try
             {
-                EnumWindowsProc callback = new(EnumWindowCallback);
+                EnumWindowsProc callback = new(EnumCallback);
                 EnumChildWindows(windowHandle, callback, GCHandle.ToIntPtr(managedWindowHandles));
             }
             catch (Exception) { }
@@ -43,7 +40,7 @@ namespace AC.ProcessManager.Utilities.Wrappers
         /// <param name="hWnd">Handle of the next window</param>
         /// <param name="lParam">Pointer to a GCHandle that holds a reference to the windowHandles to fill</param>
         /// <returns>True to continue the enumeration, false to bail</returns>
-        private static bool EnumWindowCallback(IntPtr hWnd, IntPtr lParam)
+        private static bool EnumCallback(IntPtr hWnd, IntPtr lParam)
         {
             GCHandle gch = GCHandle.FromIntPtr(lParam);
             List<IntPtr>? windowHandles = (List<IntPtr>?)gch.Target;

@@ -8,10 +8,10 @@ namespace AC.ProcessManager.Utilities.Wrappers
         [DllImport("user32.dll", BestFitMapping = false)]
         private static extern int GetClassName([In] IntPtr hWnd, [Out] StringBuilder lpClassName, [In] int nMaxCount);
 
-        private static string GetWindowClassName(IntPtr hWnd)
+        public static string GetClassNameM(IntPtr windowHandle)
         {
             StringBuilder ClassName = new(256); // Pre-allocate 256 characters (maximum class name length).
-            _ = GetClassName(hWnd, ClassName, ClassName.Capacity);
+            _ = GetClassName(windowHandle, ClassName, ClassName.Capacity);
 
             return ClassName.ToString();
         }
