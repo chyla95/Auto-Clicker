@@ -25,7 +25,7 @@ namespace AC.ProcessManager.Core
         public SystemProcess(Process process)
         {
             _process = process;
-            Window = new Window(_process.MainWindowHandle);
+            Window = new Window(_process.MainWindowHandle, new Keyboard());
         }
     }
 }
