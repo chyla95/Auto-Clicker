@@ -19,6 +19,8 @@
             <RowDefinition Height="340"/>
         </Grid.RowDefinitions>
 
+        <TextBox KeyDown="TextBox_KeyDown"/>
+
         <Grid Grid.Row="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -27,8 +29,8 @@
 
             <Grid Grid.Row="0">
                 <TextBlock>
-                    <Run Text="Active Processes: " FontWeight="Bold"/>
-                    <Run Text="{Binding ActiveProcessCount}"/>
+                    <Run Text="Processes: " FontWeight="Bold"/>
+                    <Run Text="{Binding ApplicationCount}"/>
                 </TextBlock>
             </Grid>
 
@@ -39,18 +41,18 @@
             CanUserReorderColumns="False"
             CanUserResizeColumns="False"
             CanUserSortColumns="True"   
-            ItemsSource="{Binding ActiveProcesses}">
+            ItemsSource="{Binding Applications}">
                 <c:DataGrid.Columns>
                     <c:DataGridTemplateColumn Width="100" Header="Include">
                         <c:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox MinWidth="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <CheckBox MinWidth="0" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding Source={StaticResource MainViewModel}, Path=ShowProcessCommand}" CommandParameter="{Binding}"/>
                             </DataTemplate>
                         </c:DataGridTemplateColumn.CellTemplate>
                     </c:DataGridTemplateColumn>
                     <c:DataGridTextColumn Width="100" Header="Process ID" Binding="{Binding Id}"/>
                     <c:DataGridTextColumn Width="300" Header="Process Name" Binding="{Binding Name}"/>
-                    <c:DataGridTextColumn Width="*" Header="Window Title" Binding="{Binding WindowTitle}"/>
+                    <c:DataGridTextColumn Width="*" Header="Window Title" Binding="{Binding Window.Title}"/>
                 </c:DataGrid.Columns>
 
                 <c:DataGrid.Resources>

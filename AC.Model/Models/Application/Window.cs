@@ -1,4 +1,6 @@
-﻿using AC.ProcessManager.Core;
+﻿using PeripheralDeviceEmulator.Common;
+using PeripheralDeviceEmulator.Constants;
+using PeripheralDeviceEmulator.Keyboard;
 using static PInvokeWrapper.Window.Window;
 
 namespace AC.Model.Models.Application
@@ -55,14 +57,18 @@ namespace AC.Model.Models.Application
             return childWindows;
         }
 
-        public void PostKey(KeyId keyId, KeyAction keyAction)
+        public void PostKey(KeyCode keyCode, KeyAction keyAction)
         {
-            KeyboardKey key = _keyboardEmulator.GetKey(keyId);
+            IKey? key = _keyboardEmulator.GetKey(keyCode);
+            if (key == null) throw new Exception("Unsupported key!");
+
             key.Post(Handle, keyAction);
         }
-        public void SendKey(KeyId keyId, KeyAction keyAction)
+        public void SendKey(KeyCode keyCode, KeyAction keyAction)
         {
-            KeyboardKey key = _keyboardEmulator.GetKey(keyId);
+            IKey? key = _keyboardEmulator.GetKey(keyCode);
+            if (key == null) throw new Exception("Unsupported key!");
+
             key.Send(Handle, keyAction);
         }
     }

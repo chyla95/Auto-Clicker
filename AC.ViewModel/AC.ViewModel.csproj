@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AC.Model\AC.Model.csproj" />
-    <ProjectReference Include="..\AC.ProcessManager\AC.ProcessManager.csproj" />
+    <ProjectReference Include="..\PeripheralDeviceEmulator\PeripheralDeviceEmulator.csproj" />
   </ItemGroup>
 
 </Project>
