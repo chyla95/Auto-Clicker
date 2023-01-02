@@ -7,16 +7,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AC.View"
     
+    RequestedTheme="Dark"
     xmlns:viewModels="using:AC.ViewModel.ViewModels"
     >
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="Styles/ColorDefinitions.xaml" />
+                <ResourceDictionary Source="Styles/StyleDefinitions.xaml" />
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
-            <viewModels:MainViewModel x:Key="MainViewModel"/>
+            <StaticResource x:Key="WindowCaptionBackground" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="TransparentBrush" />
+            <viewModels:MainViewModel x:Key="MainViewModel"/>            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

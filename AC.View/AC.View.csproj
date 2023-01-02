@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
@@ -12,6 +12,15 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\Icons\Click.svg" />
+    <None Remove="Assets\Icons\Delete.svg" />
+    <None Remove="Assets\Icons\Keyboard.svg" />
+    <None Remove="Assets\Icons\Macro.svg" />
+    <None Remove="Assets\Icons\Mouse.svg" />
+    <None Remove="Assets\Icons\Timer.svg" />
+    <None Remove="Controls\Applications.xaml" />
+    <None Remove="Styles\ColorDefinitions.xaml" />
+    <None Remove="Styles\StyleDefinitions.xaml" />
     <None Remove="Views\MainView.xaml" />
   </ItemGroup>
 
@@ -21,7 +30,6 @@
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
@@ -29,6 +37,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.DataGrid" Version="7.1.2" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220902.1-preview1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -44,7 +53,22 @@
     <ProjectReference Include="..\AC.ViewModel\AC.ViewModel.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Styles\StyleDefinitions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Views\MainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Applications.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Styles\ColorDefinitions.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

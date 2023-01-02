@@ -10,61 +10,133 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     
-    xmlns:c="using:CommunityToolkit.WinUI.UI.Controls"
-    >
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    
+    xmlns:controls="using:AC.View.Controls">
 
-    <Grid DataContext="{StaticResource MainViewModel}" Margin="5">
+    <Grid Background="{StaticResource ApplicationBackgroundColor}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="340"/>
         </Grid.RowDefinitions>
 
-        <TextBox KeyDown="TextBox_KeyDown"/>
+        <StackPanel x:Name="TitleBar" Grid.Row="0" Orientation="Horizontal" Height="28">
+            <Image Source="/Assets/Icons/Click.svg" Width="20" Margin="10,0"/>
+            <TextBlock Text="App Name" VerticalAlignment="Center"/>
+        </StackPanel>
 
-        <Grid Grid.Row="1" >
+        <Grid Grid.Row="1" DataContext="{StaticResource MainViewModel}" Margin="5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="240"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0">
-                <TextBlock>
-                    <Run Text="Processes: " FontWeight="Bold"/>
-                    <Run Text="{Binding ApplicationCount}"/>
-                </TextBlock>
-            </Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <c:DataGrid Grid.Row="1" 
-            BorderThickness="1"
-            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-            AutoGenerateColumns="False"
-            CanUserReorderColumns="False"
-            CanUserResizeColumns="False"
-            CanUserSortColumns="True"   
-            ItemsSource="{Binding Applications}">
-                <c:DataGrid.Columns>
-                    <c:DataGridTemplateColumn Width="100" Header="Include">
-                        <c:DataGridTemplateColumn.CellTemplate>
+            <!--Macros-->
+            <Border Style="{StaticResource CardBorder}" Grid.Row="0" Grid.Column="0" Margin="5">
+                <Grid DataContext="{Binding MacroList}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Row="0" Margin="12" HorizontalAlignment="Stretch" Command="{Binding AddMacroCommand}" CommandParameter="{Binding}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Assets/Icons/Macro.svg" Width="20"/>
+                            <TextBlock Text="Add Macro" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+
+                    <ListView x:Name="lv" ItemsSource="{Binding Macros}" Grid.Row="1">
+                        <Interactivity:Interaction.Behaviors>
+                            <Core:EventTriggerBehavior EventName="SelectionChanged">
+                                <Core:InvokeCommandAction Command="{Binding SelectMacroCommand}" CommandParameter="{Binding ElementName=lv, Path=SelectedItem}" />
+                            </Core:EventTriggerBehavior>
+                        </Interactivity:Interaction.Behaviors>
+                        
+                        <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox MinWidth="0" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding Source={StaticResource MainViewModel}, Path=ShowProcessCommand}" CommandParameter="{Binding}"/>
+                                <StackPanel Orientation="Horizontal" Padding="0,10">
+                                    <TextBox Text="{Binding Name, Mode=TwoWay}" Style="{StaticResource TextBoxPlain}" Width="200" VerticalAlignment="Center" Margin="0,0,10,0" TextWrapping="Wrap"/>
+                                    <Button VerticalAlignment="Center" Command="{Binding Source={StaticResource MainViewModel}, Path=MacroList.RemoveMacroCommand}" CommandParameter="{Binding}">
+                                        <Image Source="/Assets/Icons/Delete.svg" Width="20"/>
+                                    </Button>
+                                </StackPanel>
                             </DataTemplate>
-                        </c:DataGridTemplateColumn.CellTemplate>
-                    </c:DataGridTemplateColumn>
-                    <c:DataGridTextColumn Width="100" Header="Process ID" Binding="{Binding Id}"/>
-                    <c:DataGridTextColumn Width="300" Header="Process Name" Binding="{Binding Name}"/>
-                    <c:DataGridTextColumn Width="*" Header="Window Title" Binding="{Binding Window.Title}"/>
-                </c:DataGrid.Columns>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Border>
 
-                <c:DataGrid.Resources>
-                    <SolidColorBrush x:Key="DataGridColumnHeaderHoveredBackgroundColor">Transparent</SolidColorBrush>
-                    <SolidColorBrush x:Key="DataGridColumnHeaderPressedBackgroundColor">Transparent</SolidColorBrush>
-                    <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush">Transparent</SolidColorBrush>
-                    <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush">Transparent</SolidColorBrush>
-                    <SolidColorBrush x:Key="DataGridRowSelectedBackgroundColor">Transparent</SolidColorBrush>
-                    <SolidColorBrush x:Key="DataGridRowSelectedHoveredBackgroundColor">Transparent</SolidColorBrush>
-                    <SolidColorBrush x:Key="DataGridRowHoveredBackgroundColor">Transparent</SolidColorBrush>
-                </c:DataGrid.Resources>
-            </c:DataGrid>
+            <!--Actions-->
+            <Border Style="{StaticResource CardBorder}" Grid.Row="0" Grid.Column="1" Margin="5">
+                <Grid DataContext="{Binding MacroList.SelectedMacro}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button Grid.Row="0" Margin="12,12,5,12" HorizontalAlignment="Stretch" Command="{Binding AddKeyboardActionCommand}" CommandParameter="{Binding}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/Keyboard.svg" Width="20"/>
+                                <TextBlock Text="Keyboard Action" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Grid.Row="0" Margin="12" HorizontalAlignment="Stretch" IsEnabled="False">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/Mouse.svg" Width="20"/>
+                                <TextBlock Text="Mouse Action" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+
+                    <ListView
+                        Grid.Row="1"
+                        ItemsSource="{Binding Actions}"
+                        SelectionMode="None"            
+                        CanDragItems="True"
+                        CanReorderItems="True"
+                        AllowDrop="True"
+                        
+                        x:Name="ActionsListView">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
+                                        <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="120" Text="{Binding KeyCode, Mode=TwoWay}" x:Name="KeyCodeTextbox" PreviewKeyDown="KeyCodeTextbox_PreviewKeyDown"/>
+                                        <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="80" IsReadOnly="True" Text="{Binding KeyAction}"/>
+                                        <Button VerticalAlignment="Center" Command="{Binding DataContext.RemoveActionCommand, ElementName=ActionsListView}" CommandParameter="{Binding}">
+                                            <Image Source="/Assets/Icons/Delete.svg" Width="20"/>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Icons/Timer.svg" Width="18"/>
+                                        <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="70" Height="23" FontSize="10" Text="{Binding Delay.Milliseconds, Mode=TwoWay}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Border>
+
+            <!--Settings-->
+            <Border Style="{StaticResource CardBorder}" Grid.Row="0" Grid.Column="2" Margin="5">
+                <Grid>
+                    <ToggleButton Width="150" Command="{Binding StartLoopCommand}" IsChecked="{Binding IsLoopActive, Mode=TwoWay}">Start</ToggleButton>
+                </Grid>
+            </Border>
+
+            <controls:Applications DataContext="{Binding}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
         </Grid>
     </Grid>
+
 </Window>

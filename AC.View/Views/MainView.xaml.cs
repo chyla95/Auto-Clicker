@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using System.Diagnostics;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace AC.View.Views
 {
@@ -11,11 +11,26 @@ namespace AC.View.Views
         public MainView()
         {
             InitializeComponent();
+            ExtendsContentIntoTitleBar = true;
+            SetTitleBar(TitleBar);
         }
 
-        private void TextBox_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void KeyCodeTextbox_PreviewKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            Debug.WriteLine(e.Key);
+            TextBox textBox = (TextBox)sender;
+            bool isNumeric = int.TryParse(e.Key.ToString(), out _);
+
+            if (isNumeric) {
+                textBox.Text = "Invalid Key!";
+                e.Handled = true;
+                return;
+            }
+            else
+            {
+                textBox.Text = e.Key.ToString();
+                e.Handled = true;
+                return;
+            }
         }
     }
 }
