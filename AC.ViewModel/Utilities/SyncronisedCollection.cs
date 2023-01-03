@@ -8,13 +8,13 @@ namespace AC.ViewModel.Utilities
         where TViewModel : ModelWrapper<TModel>
         where TModel : class
     {
-        private readonly ICollection<TModel> _modelCollection;
+        private readonly ObservableCollection<TModel> _modelCollection;
 
         /// <summary>
         /// Creates a new instance of SyncCollection
         /// </summary>
         /// <param name="modelCollection">The list of Models to sync to.</param>
-        public SynchronizableCollection(ICollection<TModel> modelCollection)
+        public SynchronizableCollection(ObservableCollection<TModel> modelCollection)
         {
             _modelCollection = modelCollection;
 
@@ -22,6 +22,16 @@ namespace AC.ViewModel.Utilities
             foreach (TModel model in _modelCollection) Add(CreateViewModel(model));
 
             CollectionChanged += SyncroniseModelCollections;
+            _modelCollection.CollectionChanged += _modelCollection_CollectionChanged;
+        }
+
+        private void _modelCollection_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            Items.Clear();
+            foreach (TModel item in _modelCollection)
+            {
+                Items.Add(CreateViewModel(item));
+            }
         }
 
         private void SyncroniseModelCollections(object? sender, NotifyCollectionChangedEventArgs e)
