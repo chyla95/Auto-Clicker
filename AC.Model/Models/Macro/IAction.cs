@@ -17,7 +17,7 @@ namespace AC.Model.Models.Macro
 
         public TimeSpan Delay { get; set; }
         public KeyCode KeyCode { get; set; }
-        public KeyAction KeyAction { get; set; }
+        public KeyAction KeyAction { get; }
 
         public abstract Task Execute(Window window);
     }

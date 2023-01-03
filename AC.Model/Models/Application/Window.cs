@@ -1,4 +1,5 @@
-﻿using PeripheralDeviceEmulator.Common;
+﻿using System.Collections.ObjectModel;
+using PeripheralDeviceEmulator.Common;
 using PeripheralDeviceEmulator.Constants;
 using PeripheralDeviceEmulator.Keyboard;
 using static PInvokeWrapper.Window.Window;
@@ -29,18 +30,14 @@ namespace AC.Model.Models.Application
                 SetTextM(Handle, value);
             }
         }
-        public List<Window> ChildWindows
-        {
-            get
-            {
-                return GetChildWindows().ToList();
-            }
-        }
+        public ObservableCollection<Window> ChildWindows { get; }
 
         public Window(IntPtr handle, IKeyboardEmulator keyboardEmulator)
         {
             _handle = handle;
             _keyboardEmulator = keyboardEmulator;
+
+            ChildWindows = new ObservableCollection<Window>(GetChildWindows());
         }
 
         private IEnumerable<Window> GetChildWindows()
