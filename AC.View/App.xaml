@@ -5,9 +5,10 @@
     x:Class="AC.View.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:AC.View"
-    
+    xmlns:local="using:AC.View"       
+
     RequestedTheme="Dark"
+    xmlns:Converters="using:AC.View.Converters"
     xmlns:viewModels="using:AC.ViewModel.ViewModels"
     >
     <Application.Resources>
@@ -21,6 +22,10 @@
             <!-- Other app resources here -->
             <StaticResource x:Key="WindowCaptionBackground" ResourceKey="TransparentBrush" />
             <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="TransparentBrush" />
+            
+            <Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter"/>
+            <Converters:KeyCodeConverter x:Key="KeyCodeConverter"/>
+            
             <viewModels:MainViewModel x:Key="MainViewModel"/>            
         </ResourceDictionary>
     </Application.Resources>

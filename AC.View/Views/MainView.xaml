@@ -12,7 +12,6 @@
     
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    
     xmlns:controls="using:AC.View.Controls">
 
     <Grid Background="{StaticResource ApplicationBackgroundColor}">
@@ -81,7 +80,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-
                     <StackPanel Orientation="Horizontal">
                         <Button Grid.Row="0" Margin="12,12,5,12" HorizontalAlignment="Stretch" Command="{Binding AddKeyboardActionCommand}" CommandParameter="{Binding}">
                             <StackPanel Orientation="Horizontal">
@@ -97,7 +95,6 @@
                         </Button>
                     </StackPanel>
 
-
                     <ListView
                         Grid.Row="1"
                         ItemsSource="{Binding Actions}"
@@ -111,7 +108,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Vertical" Margin="0,0,0,10">
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
-                                        <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="120" Text="{Binding KeyCode, Mode=TwoWay}" x:Name="KeyCodeTextbox" PreviewKeyDown="KeyCodeTextbox_PreviewKeyDown"/>
+                                        <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="120" Text="{Binding KeyCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource KeyCodeConverter}}" x:Name="KeyCodeTextbox" PreviewKeyDown="KeyCodeTextbox_PreviewKeyDown"/>
                                         <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="80" IsReadOnly="True" Text="{Binding KeyAction}"/>
                                         <Button VerticalAlignment="Center" Command="{Binding DataContext.RemoveActionCommand, ElementName=ActionsListView}" CommandParameter="{Binding}">
                                             <Image Source="/Assets/Icons/Delete.svg" Width="20"/>
@@ -119,7 +116,7 @@
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Assets/Icons/Timer.svg" Width="18"/>
-                                        <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="70" Height="23" FontSize="10" Text="{Binding Delay.Milliseconds, Mode=TwoWay}"/>
+                                        <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="70" Height="23" FontSize="10" Text="{Binding Delay, Mode=TwoWay, Converter={StaticResource TimeSpanToStringConverter}, ConverterParameter='mm\\:ss\\.fff'}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
