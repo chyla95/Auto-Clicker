@@ -29,6 +29,7 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
             set
             {
                 Model.Delay = value;
+                NotifyPropertyChanged();
             }
         }
         public KeyCode KeyCode
@@ -39,7 +40,8 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
             }
             set
             {
-                Model.KeyCode = value;
+                 Model.KeyCode = value;
+                NotifyPropertyChanged();
             }
         }
         public KeyAction KeyAction
@@ -47,10 +49,6 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
             get
             {
                 return Model.KeyAction;
-            }
-            set
-            {
-                Model.KeyAction = value;
             }
         }
 

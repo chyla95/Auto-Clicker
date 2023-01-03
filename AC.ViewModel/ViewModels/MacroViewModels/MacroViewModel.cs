@@ -1,4 +1,5 @@
-﻿using AC.Model.Models.Macro;
+﻿using System.ComponentModel.DataAnnotations;
+using AC.Model.Models.Macro;
 using AC.ViewModel.Utilities;
 using PeripheralDeviceEmulator.Constants;
 
@@ -6,7 +7,6 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
 {
     public class MacroViewModel : ModelWrapper<Macro>
     {
-
         public string Name
         {
             get
@@ -16,6 +16,7 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
             set
             {
                 Model.Name = value;
+                NotifyPropertyChanged();
             }
         }
         public SynchronizableCollection<ActionViewModel, IAction> Actions { get; }
