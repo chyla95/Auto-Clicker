@@ -25,6 +25,7 @@
             
             <Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter"/>
             <Converters:KeyCodeConverter x:Key="KeyCodeConverter"/>
+            <Converters:BooleanInversionConverter x:Key="BooleanInversionConverter"/>            
             
             <viewModels:MainViewModel x:Key="MainViewModel"/>            
         </ResourceDictionary>
