@@ -4,6 +4,18 @@ namespace AC.ViewModel.ViewModels.ApplicationViewModels
 {
     public class ApplicationViewModel : ModelWrapper<Application>
     {
+        public bool IsSelected
+        {
+            get
+            {
+                return Model.IsSelected;
+            }
+            set
+            {
+                Model.IsSelected = value;
+                NotifyPropertyChanged();
+            }
+        }
         public int Id
         {
             get

@@ -8,6 +8,7 @@ namespace AC.Model.Models.Application
         private readonly Process _process;
         private readonly IKeyboardEmulator _keyboardEmulator;
 
+        public bool IsSelected { get; set; }
         public int Id
         {
             get

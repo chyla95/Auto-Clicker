@@ -32,7 +32,7 @@
                     <c:DataGridTemplateColumn Width="100" Header="Include">
                         <c:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox MinWidth="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <CheckBox MinWidth="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
                             </DataTemplate>
                         </c:DataGridTemplateColumn.CellTemplate>
                     </c:DataGridTemplateColumn>
