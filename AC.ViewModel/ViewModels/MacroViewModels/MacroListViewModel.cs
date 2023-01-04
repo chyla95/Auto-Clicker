@@ -9,14 +9,21 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
         private readonly string DATA_FILE_NAME = @"\Macros.json";
 
         public SynchronizableCollection<MacroViewModel, Macro> Macros { get; set; }
-
-        private MacroViewModel? _selectedMacro;
         public MacroViewModel? SelectedMacro
         {
-            get { return _selectedMacro; }
+            get
+            {
+                if (Model.SelectedMacro == null) return null;
+                return Macros.SingleByModel(Model.SelectedMacro);
+            }
             set
             {
-                _selectedMacro = value;
+                if (value == null)
+                {
+                    Model.SelectedMacro = null;
+                    return;
+                }
+                Model.SelectedMacro = value.Model;
                 NotifyPropertyChanged();
             }
         }
@@ -47,8 +54,8 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
         }
         private void SelectMacroCommandExecute(MacroViewModel? macro)
         {
-            if (macro is not MacroViewModel castedMacro) return;
-            SelectedMacro = castedMacro;
+            if (macro == null) throw new NullReferenceException(nameof(macro));
+            SelectedMacro = macro;
         }
 
         public async Task SaveStateAsync()

@@ -2,13 +2,13 @@
 using System.Diagnostics;
 using System.Text.Json;
 using AC.Model.Utilities;
-using PeripheralDeviceEmulator.Constants;
 
 namespace AC.Model.Models.Macro
 {
     public class MacroList : IPersistable
     {
         public ObservableCollection<Macro> Macros { get; }
+        public Macro? SelectedMacro { get; set; }
 
         public MacroList()
         {

@@ -89,5 +89,14 @@ namespace AC.ViewModel.Utilities
             TViewModel? vm = (TViewModel)Activator.CreateInstance(typeof(TViewModel), new object[] { model });
             return vm!;
         }
+
+        public TViewModel SingleByModel(TModel model)
+        {
+            return Items.Single(vm => vm.Model == model);
+        }
+        public TViewModel? SingleOrDefaultByModel(TModel model)
+        {
+            return Items.SingleOrDefault(vm => vm.Model == model);
+        }
     }
 }

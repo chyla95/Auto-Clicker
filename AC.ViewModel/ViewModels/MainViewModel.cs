@@ -1,44 +1,39 @@
-﻿using System.Diagnostics;
-using AC.Model.Models.Application;
-using AC.Model.Models.Macro;
+﻿using AC.Model.Models;
 using AC.ViewModel.Utilities;
 using AC.ViewModel.ViewModels.ApplicationViewModels;
 using AC.ViewModel.ViewModels.MacroViewModels;
-using PeripheralDeviceEmulator.Keyboard;
 
 namespace AC.ViewModel.ViewModels
 {
-    public class MainViewModel : ViewModel
+    public class MainViewModel : ModelWrapper<Main>
     {
         public MacroListViewModel MacroList { get; }
         public ApplicationListViewModel ApplicationList { get; }
 
-        private bool _isLoopActive;
-        public bool IsLoopActive
+        public bool IsPlaying
         {
-            get { return _isLoopActive; }
+            get { 
+                return Model.IsPlaying; }
             set
             {
-                _isLoopActive = value;
+                Model.IsPlaying = value;
                 NotifyPropertyChanged();
-                Debug.WriteLine("Pong.");
             }
         }
 
         public RelayCommand<object> StartLoopCommand { get; }
 
-        public MainViewModel()
+        public MainViewModel() : base(new Main())
         {
             StartLoopCommand = new RelayCommand<object>(StartLoopCommandExecute);
 
-            MacroList = new(new MacroList());
-            KeyboardEmulator keyboardEmulator = new();
-            ApplicationList = new(new ApplicationList(keyboardEmulator));
+            MacroList = new(Model.MacroList);
+            ApplicationList = new(Model.ApplicationList);
         }
 
-        private void StartLoopCommandExecute(object? application)
+        private async void StartLoopCommandExecute(object? application)
         {
-            Debug.WriteLine("Ping.");
+            await Model.PlayRepeatedly();
         }
     }
 }
