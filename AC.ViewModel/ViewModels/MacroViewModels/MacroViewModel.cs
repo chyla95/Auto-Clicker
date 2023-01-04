@@ -37,8 +37,8 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
             int actionId = 1;
             if(Actions.Count > 0) actionId = Actions.OrderBy(a => a.Id).Last().Id + 1;
 
-            IAction keyboardAction_keyDown = new KeyboardAction(actionId, TimeSpan.FromMilliseconds(100), KeyCode.A, KeyAction.KeyDown);
-            IAction keyboardAction_keyUp = new KeyboardAction(actionId, TimeSpan.FromMilliseconds(100), KeyCode.A, KeyAction.KeyUp);
+            IAction keyboardAction_keyDown = new KeyboardAction(actionId, TimeSpan.FromMilliseconds(100), KeyCode.None, KeyAction.KeyDown);
+            IAction keyboardAction_keyUp = new KeyboardAction(actionId, TimeSpan.FromMilliseconds(100), KeyCode.None, KeyAction.KeyUp);
             Actions.Add(new ActionViewModel(keyboardAction_keyDown));
             Actions.Add(new ActionViewModel(keyboardAction_keyUp));
         }

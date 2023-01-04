@@ -27,7 +27,7 @@ namespace AC.Model.Models.Application
         {
             get
             {
-                IntPtr windowHandle = GetWindowHandle();
+                IntPtr windowHandle = _process.MainWindowHandle;
                 if (windowHandle == IntPtr.Zero) return null;
 
                 return new Window(windowHandle, _keyboardEmulator);
@@ -38,12 +38,6 @@ namespace AC.Model.Models.Application
         {
             _process = process;
             _keyboardEmulator = keyboardEmulator;
-        }
-
-        private IntPtr GetWindowHandle()
-        {
-            IntPtr windowHandle = _process.MainWindowHandle;
-            return windowHandle;
         }
     }
 }

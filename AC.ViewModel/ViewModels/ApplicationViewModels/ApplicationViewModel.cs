@@ -30,11 +30,12 @@ namespace AC.ViewModel.ViewModels.ApplicationViewModels
                 return Model.Name;
             }
         }
-        public Window? Window
+        public WindowViewModel? Window
         {
             get
             {
-                return Model.Window;
+                if (Model.Window == null) return default;
+                return new(Model.Window);
             }
         }
 

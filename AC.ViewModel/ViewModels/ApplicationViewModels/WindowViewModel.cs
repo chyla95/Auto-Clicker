@@ -1,6 +1,5 @@
 ﻿using AC.Model.Models.Application;
 using AC.ViewModel.Utilities;
-using PeripheralDeviceEmulator.Constants;
 
 namespace AC.ViewModel.ViewModels.ApplicationViewModels
 {
@@ -23,15 +22,6 @@ namespace AC.ViewModel.ViewModels.ApplicationViewModels
         public WindowViewModel(Window model) : base(model)
         {
             ChildWindows = new(Model.ChildWindows);
-        }
-
-        public void PostKey(KeyCode keyCode, KeyAction keyAction)
-        {
-            Model.PostKey(keyCode, keyAction);
-        }
-        public void SendKey(KeyCode keyCode, KeyAction keyAction)
-        {
-            Model.SendKey(keyCode, keyAction);
         }
     }
 }
