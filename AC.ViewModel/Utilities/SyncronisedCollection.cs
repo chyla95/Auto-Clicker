@@ -9,6 +9,7 @@ namespace AC.ViewModel.Utilities
         where TModel : class
     {
         private readonly ObservableCollection<TModel> _modelCollection;
+        private bool _isSyncActive = true;
 
         /// <summary>
         /// Creates a new instance of SyncCollection
@@ -27,15 +28,22 @@ namespace AC.ViewModel.Utilities
 
         private void _modelCollection_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
+            if (!_isSyncActive) return;
+            _isSyncActive = false;
+
             Items.Clear();
             foreach (TModel item in _modelCollection)
             {
                 Items.Add(CreateViewModel(item));
             }
+
+            _isSyncActive = true;
         }
 
         private void SyncroniseModelCollections(object? sender, NotifyCollectionChangedEventArgs e)
         {
+            if (!_isSyncActive) return;
+            _isSyncActive = false;
 
             switch (e.Action)
             {
@@ -72,6 +80,8 @@ namespace AC.ViewModel.Utilities
                     // https://stackoverflow.com/a/2177659/20798039
                     // https://stackoverflow.com/a/15831128/20798039
             }
+
+            _isSyncActive = true;
         }
 
         private static TViewModel CreateViewModel(TModel model)
