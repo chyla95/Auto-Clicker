@@ -5,14 +5,37 @@ using AC.Model.Utilities;
 
 namespace AC.Model.Models.Macro
 {
-    public class MacroList : IPersistable
+    public class MacroList : ModelBase, IPersistable
     {
         public ObservableCollection<Macro> Macros { get; }
-        public Macro? SelectedMacro { get; set; }
+        public Macro? _selectedMacro { get; set; }
+        public Macro? SelectedMacro
+        {
+            get
+            {
+                return _selectedMacro;
+            }
+            set
+            {
+                _selectedMacro = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MacroList()
         {
             Macros = new();
+        }
+
+        public void AddMacro(Macro macro)
+        {
+            Macros.Add(macro);
+            SelectedMacro = macro;
+        }
+        public void RemoveMacro(Macro macro)
+        {
+            Macros.Remove(macro);
+            if (SelectedMacro == macro) SelectedMacro = null;
         }
 
         public async Task SaveStateAsync(string directoryPath, string fileName)
@@ -59,7 +82,7 @@ namespace AC.Model.Models.Macro
             //public struct MacroJ
             //{
             //    public string Name { get; set; }
-            //    public List<ActionJ> Actions { get; set; }
+            //    public List<ActionJ> Activities { get; set; }
             //}
             //public struct ActionJ
             //{

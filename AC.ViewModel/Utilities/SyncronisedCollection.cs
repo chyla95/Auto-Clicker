@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using AC.Model.Models;
 using AC.ViewModel.ViewModels;
 
 namespace AC.ViewModel.Utilities
 {
     public class SynchronizableCollection<TViewModel, TModel> : ObservableCollection<TViewModel>
         where TViewModel : ModelWrapper<TModel>
-        where TModel : class
+        where TModel : ModelBase
     {
         private readonly ObservableCollection<TModel> _modelCollection;
         private bool _isSyncActive = true;
@@ -36,6 +37,7 @@ namespace AC.ViewModel.Utilities
             {
                 Items.Add(CreateViewModel(item));
             }
+            OnCollectionChanged(e);
 
             _isSyncActive = true;
         }

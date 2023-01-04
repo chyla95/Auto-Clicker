@@ -4,7 +4,7 @@ using PeripheralDeviceEmulator.Keyboard;
 
 namespace AC.Model.Models
 {
-    public class Main
+    public class Main : ModelBase
     {
         private CancellationTokenSource? _cts;
 
@@ -27,7 +27,7 @@ namespace AC.Model.Models
             IEnumerable<Application.Application> selectedApplications = ApplicationList.Applications.Where(x => x.IsSelected);
             if (!selectedApplications.Any()) throw new Exception("No Apps selected!");
 
-            foreach (IAction action in selectedMacro.Actions)
+            foreach (Activity action in selectedMacro.Activities)
             {
                 foreach (Application.Application application in selectedApplications)
                 {

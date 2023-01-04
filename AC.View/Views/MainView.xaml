@@ -52,13 +52,12 @@
                         </StackPanel>
                     </Button>
 
-                    <ListView x:Name="lv" ItemsSource="{Binding Macros}" Grid.Row="1" IsEnabled="{Binding Source={StaticResource MainViewModel}, Path=IsPlaying, Converter={StaticResource BooleanInversionConverter}}">
-                        <Interactivity:Interaction.Behaviors>
-                            <Core:EventTriggerBehavior EventName="SelectionChanged">
-                                <Core:InvokeCommandAction Command="{Binding SelectMacroCommand}" CommandParameter="{Binding ElementName=lv, Path=SelectedItem}" />
-                            </Core:EventTriggerBehavior>
-                        </Interactivity:Interaction.Behaviors>
-                        
+                    <ListView x:Name="lv"
+                              ItemsSource="{Binding Macros}" 
+                              Grid.Row="1" 
+                              IsEnabled="{Binding Source={StaticResource MainViewModel}, Path=IsPlaying, Converter={StaticResource BooleanInversionConverter}}"
+                              SelectedItem="{Binding SelectedMacro, Mode=TwoWay}">
+
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Padding="0,10">
@@ -73,7 +72,7 @@
                 </Grid>
             </Border>
 
-            <!--Actions-->
+            <!--Activities-->
             <Border Style="{StaticResource CardBorder}" Grid.Row="0" Grid.Column="1" Margin="5">
                 <Grid DataContext="{Binding MacroList.SelectedMacro}">
                     <Grid.RowDefinitions>
@@ -97,20 +96,20 @@
 
                     <ListView
                         Grid.Row="1"
-                        ItemsSource="{Binding Actions}"
+                        ItemsSource="{Binding Activities}"
                         SelectionMode="None"            
                         CanDragItems="True"
                         CanReorderItems="True"
                         AllowDrop="True"
                         IsEnabled="{Binding Source={StaticResource MainViewModel}, Path=IsPlaying, Converter={StaticResource BooleanInversionConverter}}"
-                        x:Name="ActionsListView">
+                        x:Name="ActivitiesListView">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Vertical" Margin="0,0,0,10">
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
                                         <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="120" Text="{Binding KeyCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource KeyCodeConverter}}" x:Name="KeyCodeTextbox" PreviewKeyDown="KeyCodeTextbox_PreviewKeyDown"/>
                                         <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="80" IsReadOnly="True" Text="{Binding KeyAction}"/>
-                                        <Button VerticalAlignment="Center" Command="{Binding DataContext.RemoveActionCommand, ElementName=ActionsListView}" CommandParameter="{Binding}">
+                                        <Button VerticalAlignment="Center" Command="{Binding DataContext.RemoveActionCommand, ElementName=ActivitiesListView}" CommandParameter="{Binding}">
                                             <Image Source="/Assets/Icons/Delete.svg" Width="20"/>
                                         </Button>
                                     </StackPanel>

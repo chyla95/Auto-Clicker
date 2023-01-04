@@ -13,7 +13,7 @@ namespace AC.ViewModel.ViewModels.ApplicationViewModels
             set
             {
                 Model.IsSelected = value;
-                NotifyPropertyChanged();
+                OnPropertyChanged();
             }
         }
         public int Id

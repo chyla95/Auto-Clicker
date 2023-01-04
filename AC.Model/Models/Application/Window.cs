@@ -6,7 +6,7 @@ using static PInvokeWrapper.Window.Window;
 
 namespace AC.Model.Models.Application
 {
-    public class Window
+    public class Window : ModelBase
     {
         private readonly IntPtr _handle;
         private readonly IKeyboardEmulator _keyboardEmulator;

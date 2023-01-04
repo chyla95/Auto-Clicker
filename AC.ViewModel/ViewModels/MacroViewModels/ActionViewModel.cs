@@ -3,7 +3,7 @@ using PeripheralDeviceEmulator.Constants;
 
 namespace AC.ViewModel.ViewModels.MacroViewModels
 {
-    public class ActionViewModel : ModelWrapper<IAction>
+    public class ActivityViewModel : ModelWrapper<Activity>
     {
         public int Id
         {
@@ -21,7 +21,7 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
             set
             {
                 Model.Delay = value;
-                NotifyPropertyChanged();
+                OnPropertyChanged();
             }
         }
         public KeyCode KeyCode
@@ -33,7 +33,7 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
             set
             {
                  Model.KeyCode = value;
-                NotifyPropertyChanged();
+                OnPropertyChanged();
             }
         }
         public KeyAction KeyAction
@@ -44,6 +44,6 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
             }
         }
 
-        public ActionViewModel(IAction model) : base(model) { }
+        public ActivityViewModel(Activity model) : base(model) { }
     }
 }

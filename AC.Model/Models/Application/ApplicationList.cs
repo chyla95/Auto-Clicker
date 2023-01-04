@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace AC.Model.Models.Application
 {
-    public class ApplicationList
+    public class ApplicationList : ModelBase
     {
         private readonly IKeyboardEmulator _keyboardEmulator;
 

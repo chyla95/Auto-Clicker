@@ -14,7 +14,7 @@ namespace AC.ViewModel.ViewModels.ApplicationViewModels
             set
             {
                 Model.Title = value;
-                NotifyPropertyChanged();
+                OnPropertyChanged();
             }
         }
         public SynchronizableCollection<WindowViewModel, Window> ChildWindows { get; }

@@ -3,7 +3,7 @@ using PeripheralDeviceEmulator.Keyboard;
 
 namespace AC.Model.Models.Application
 {
-    public class Application
+    public class Application : ModelBase
     {
         private readonly Process _process;
         private readonly IKeyboardEmulator _keyboardEmulator;

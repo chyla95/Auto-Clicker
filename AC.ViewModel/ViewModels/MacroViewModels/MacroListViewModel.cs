@@ -23,37 +23,30 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
                 {
                     Model.SelectedMacro = value.Model;
                 }
-                NotifyPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
         public RelayCommand<object> AddMacroCommand { get; }
         public RelayCommand<MacroViewModel> RemoveMacroCommand { get; }
-        public RelayCommand<MacroViewModel> SelectMacroCommand { get; }
 
         public MacroListViewModel(MacroList model) : base(model)
         {
             Macros = new(Model.Macros);
             AddMacroCommand = new RelayCommand<object>(AddMacroCommandExecute);
             RemoveMacroCommand = new RelayCommand<MacroViewModel>(RemoveMacroCommandExecute);
-            SelectMacroCommand = new RelayCommand<MacroViewModel>(SelectMacroCommandExecute);
         }
 
         private void AddMacroCommandExecute(object? o)
         {
             Macro macro = new("New Macro");
-            Macros.Add(new MacroViewModel(macro));
+            Model.AddMacro(macro);
         }
         private void RemoveMacroCommandExecute(MacroViewModel? macro)
         {
             if (macro == null) throw new NullReferenceException(nameof(macro));
             if (macro == SelectedMacro) SelectedMacro = null;
             Macros.Remove(macro);
-        }
-        private void SelectMacroCommandExecute(MacroViewModel? macro)
-        {
-            if (macro == null) throw new NullReferenceException(nameof(macro));
-            SelectedMacro = macro;
         }
     }
 }

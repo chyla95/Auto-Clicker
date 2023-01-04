@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AC.Model.Models.Macro;
+﻿using AC.Model.Models.Macro;
 using AC.ViewModel.Utilities;
 using PeripheralDeviceEmulator.Constants;
 
@@ -16,40 +15,40 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
             set
             {
                 Model.Name = value;
-                NotifyPropertyChanged();
+                OnPropertyChanged();
             }
         }
-        public SynchronizableCollection<ActionViewModel, IAction> Actions { get; }
+        public SynchronizableCollection<ActivityViewModel, Activity> Activities { get; }
 
         public RelayCommand<object> AddKeyboardActionCommand { get; }
-        public RelayCommand<ActionViewModel> RemoveActionCommand { get; }
+        public RelayCommand<ActivityViewModel> RemoveActionCommand { get; }
 
         public MacroViewModel(Macro model) : base(model)
         {
-            Actions = new(Model.Actions);
+            Activities = new(Model.Activities);
 
             AddKeyboardActionCommand = new RelayCommand<object>(AddKeyboardActionCommandExecute);
-            RemoveActionCommand = new RelayCommand<ActionViewModel>(RemoveActionCommandExecute);
+            RemoveActionCommand = new RelayCommand<ActivityViewModel>(RemoveActionCommandExecute);
         }
 
         private void AddKeyboardActionCommandExecute(object? o)
         {
             int actionId = 1;
-            if(Actions.Count > 0) actionId = Actions.OrderBy(a => a.Id).Last().Id + 1;
+            if(Activities.Count > 0) actionId = Activities.OrderBy(a => a.Id).Last().Id + 1;
 
-            IAction keyboardAction_keyDown = new KeyboardAction(actionId, TimeSpan.FromMilliseconds(100), KeyCode.None, KeyAction.KeyDown);
-            IAction keyboardAction_keyUp = new KeyboardAction(actionId, TimeSpan.FromMilliseconds(100), KeyCode.None, KeyAction.KeyUp);
-            Actions.Add(new ActionViewModel(keyboardAction_keyDown));
-            Actions.Add(new ActionViewModel(keyboardAction_keyUp));
+            Activity keyboardAction_keyDown = new KeyboardActivity(actionId, TimeSpan.FromMilliseconds(100), KeyCode.None, KeyAction.KeyDown);
+            Activity keyboardAction_keyUp = new KeyboardActivity(actionId, TimeSpan.FromMilliseconds(100), KeyCode.None, KeyAction.KeyUp);
+            Activities.Add(new ActivityViewModel(keyboardAction_keyDown));
+            Activities.Add(new ActivityViewModel(keyboardAction_keyUp));
         }
-        private void RemoveActionCommandExecute(ActionViewModel? action)
+        private void RemoveActionCommandExecute(ActivityViewModel? action)
         {
             if (action == null) throw new NullReferenceException(nameof(action));
 
-            while (Actions.Any(a => a.Id == action.Id))
+            while (Activities.Any(a => a.Id == action.Id))
             {
-                ActionViewModel actionToRemove = Actions.First(a => a.Id == action.Id);
-                Actions.Remove(actionToRemove);
+                ActivityViewModel actionToRemove = Activities.First(a => a.Id == action.Id);
+                Activities.Remove(actionToRemove);
             }
         }
     }

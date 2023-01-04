@@ -2,10 +2,10 @@
 
 namespace AC.Model.Models.Macro
 {
-    public class Macro
+    public class Macro : ModelBase
     {
         public string Name { get; set; }
-        public ObservableCollection<IAction> Actions { get; } = new();
+        public ObservableCollection<Activity> Activities { get; } = new();
 
         public Macro(string name)
         {

@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace AC.ViewModel.ViewModels
+namespace AC.Model.Models
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ModelBase
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)

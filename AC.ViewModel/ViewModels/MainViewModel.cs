@@ -17,7 +17,7 @@ namespace AC.ViewModel.ViewModels
             set
             {
                 Model.IsPlaying = value;
-                NotifyPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
