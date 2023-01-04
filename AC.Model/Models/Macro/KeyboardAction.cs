@@ -1,5 +1,4 @@
 ﻿using PeripheralDeviceEmulator.Constants;
-using Window = AC.Model.Models.Application.Window;
 
 namespace AC.Model.Models.Macro
 {
@@ -16,12 +15,6 @@ namespace AC.Model.Models.Macro
             Delay = delay;
             KeyCode = keyCode;
             KeyAction = keyAction;
-        }
-
-        public async Task Execute(Window window)
-        {
-            window.PostKey(KeyCode, KeyAction);
-            await Task.Delay(Delay);
         }
     }
 }
