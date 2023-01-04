@@ -12,14 +12,6 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
                 return Model.Id;
             }
         }
-        public ActionType ActionType
-        {
-            get
-            {
-                return Model.ActionType;
-            }
-        }
-
         public TimeSpan Delay
         {
             get

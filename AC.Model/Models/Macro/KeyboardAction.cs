@@ -6,8 +6,6 @@ namespace AC.Model.Models.Macro
     public class KeyboardAction : IAction
     {
         public int Id { get; private set; }
-        public ActionType ActionType { get; private set; }
-
         public TimeSpan Delay { get; set; }
         public KeyCode KeyCode { get; set; }
         public KeyAction KeyAction { get; }
