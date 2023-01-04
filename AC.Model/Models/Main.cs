@@ -44,7 +44,7 @@ namespace AC.Model.Models
             }
             IsPlaying = false;
         }
-        public async Task PlayRepeatedly()
+        public async Task PlayToggle()
         {
             _cts = new();
             if (IsPlaying)

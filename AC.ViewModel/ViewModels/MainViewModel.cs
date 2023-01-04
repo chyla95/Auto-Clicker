@@ -33,7 +33,7 @@ namespace AC.ViewModel.ViewModels
 
         private async void StartLoopCommandExecute(object? application)
         {
-            await Model.PlayRepeatedly();
+            await Model.PlayToggle();
         }
     }
 }
