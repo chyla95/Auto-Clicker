@@ -13,7 +13,7 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
         {
             get
             {
-                if (Model.SelectedMacro == null) return null;
+                if (Model.SelectedMacro == null) return default;
                 return Macros.SingleByModel(Model.SelectedMacro);
             }
             set
@@ -21,9 +21,11 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
                 if (value == null)
                 {
                     Model.SelectedMacro = null;
-                    return;
                 }
-                Model.SelectedMacro = value.Model;
+                else
+                {
+                    Model.SelectedMacro = value.Model;
+                }
                 NotifyPropertyChanged();
             }
         }
@@ -35,7 +37,6 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
         public MacroListViewModel(MacroList model) : base(model)
         {
             Macros = new(Model.Macros);
-
             AddMacroCommand = new RelayCommand<object>(AddMacroCommandExecute);
             RemoveMacroCommand = new RelayCommand<MacroViewModel>(RemoveMacroCommandExecute);
             SelectMacroCommand = new RelayCommand<MacroViewModel>(SelectMacroCommandExecute);
