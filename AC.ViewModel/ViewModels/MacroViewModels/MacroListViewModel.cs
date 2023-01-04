@@ -5,9 +5,6 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
 {
     public class MacroListViewModel : ModelWrapper<MacroList>
     {
-        private readonly string DATA_DIRECTORY_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\AC";
-        private readonly string DATA_FILE_NAME = @"\Macros.json";
-
         public SynchronizableCollection<MacroViewModel, Macro> Macros { get; set; }
         public MacroViewModel? SelectedMacro
         {
@@ -57,15 +54,6 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
         {
             if (macro == null) throw new NullReferenceException(nameof(macro));
             SelectedMacro = macro;
-        }
-
-        public async Task SaveStateAsync()
-        {
-            await Model.SaveStateAsync(DATA_DIRECTORY_PATH, DATA_FILE_NAME);
-        }
-        public async Task LoadStateAsync()
-        {
-            await Model.LoadStateAsync(DATA_DIRECTORY_PATH, DATA_FILE_NAME);
         }
     }
 }
