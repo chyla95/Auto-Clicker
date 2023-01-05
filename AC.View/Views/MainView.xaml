@@ -10,129 +10,56 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:controls="using:AC.View.Controls">
 
-    <Grid Background="{StaticResource ApplicationBackgroundColor}">
+    <Grid Background="{StaticResource ApplicationBackgroundColor}" Padding="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel x:Name="TitleBar" Grid.Row="0" Orientation="Horizontal" Height="28">
-            <Image Source="/Assets/Icons/Click.svg" Width="20" Margin="10,0"/>
-            <TextBlock Text="App Name" VerticalAlignment="Center"/>
+        <!--Title Bar-->
+        <StackPanel x:Name="TitleBar" Grid.Row="0" Orientation="Horizontal" Height="35">
+            <Image Source="/Assets/Icons/Keyboard.svg" Width="20" Margin="5,0"/>
+            <TextBlock Text="A-Key" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <Grid Grid.Row="1" DataContext="{StaticResource MainViewModel}" Margin="5">
+        <!--Content-->
+        <Grid Grid.Row="1" DataContext="{StaticResource MainViewModel}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="240"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <!--Cards-->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" MinWidth="300"/>
+                    <ColumnDefinition Width="3*" MinWidth="300"/>
+                    <ColumnDefinition Width="3*" MinWidth="300"/>
+                </Grid.ColumnDefinitions>
+                
+                <!--Applications-->
+                <controls:Applications 
+                Grid.Column="0" 
+                Margin="5"/>
 
-            <!--Macros-->
-            <Border Style="{StaticResource CardBorder}" Grid.Row="0" Grid.Column="0" Margin="5">
-                <Grid DataContext="{Binding MacroList}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                <!--Macros-->
+                <controls:Macros
+                Grid.Column="1"
+                Margin="5"/>
 
-                    <Button Grid.Row="0" Margin="12" HorizontalAlignment="Stretch" Command="{Binding AddMacroCommand}" CommandParameter="{Binding}" IsEnabled="{Binding Source={StaticResource MainViewModel}, Path=IsPlaying, Converter={StaticResource BooleanInversionConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Assets/Icons/Macro.svg" Width="20"/>
-                            <TextBlock Text="Add Macro" Margin="5,0,0,0"/>
-                        </StackPanel>
-                    </Button>
-
-                    <ListView x:Name="lv"
-                              ItemsSource="{Binding Macros}" 
-                              Grid.Row="1" 
-                              IsEnabled="{Binding Source={StaticResource MainViewModel}, Path=IsPlaying, Converter={StaticResource BooleanInversionConverter}}"
-                              SelectedItem="{Binding SelectedMacro, Mode=TwoWay}">
-
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Padding="0,10">
-                                    <TextBox Text="{Binding Name, Mode=TwoWay}" Style="{StaticResource TextBoxPlain}" Width="200" VerticalAlignment="Center" Margin="0,0,10,0" TextWrapping="Wrap"/>
-                                    <Button VerticalAlignment="Center" Command="{Binding Source={StaticResource MainViewModel}, Path=MacroList.RemoveMacroCommand}" CommandParameter="{Binding}">
-                                        <Image Source="/Assets/Icons/Delete.svg" Width="20"/>
-                                    </Button>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
-            </Border>
-
-            <!--Activities-->
-            <Border Style="{StaticResource CardBorder}" Grid.Row="0" Grid.Column="1" Margin="5">
-                <Grid DataContext="{Binding MacroList.SelectedMacro}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Grid.Row="0" Margin="12,12,5,12" HorizontalAlignment="Stretch" Command="{Binding AddKeyboardActionCommand}" CommandParameter="{Binding}" IsEnabled="{Binding Source={StaticResource MainViewModel}, Path=IsPlaying, Converter={StaticResource BooleanInversionConverter}}">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Assets/Icons/Keyboard.svg" Width="20"/>
-                                <TextBlock Text="Keyboard Action" Margin="5,0,0,0"/>
-                            </StackPanel>
-                        </Button>
-                        <Button Grid.Row="0" Margin="12" HorizontalAlignment="Stretch" IsEnabled="False">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Assets/Icons/Mouse.svg" Width="20"/>
-                                <TextBlock Text="Mouse Action" Margin="5,0,0,0"/>
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-
-                    <ListView
-                        Grid.Row="1"
-                        ItemsSource="{Binding Activities}"
-                        SelectionMode="None"            
-                        CanDragItems="True"
-                        CanReorderItems="True"
-                        AllowDrop="True"
-                        IsEnabled="{Binding Source={StaticResource MainViewModel}, Path=IsPlaying, Converter={StaticResource BooleanInversionConverter}}"
-                        x:Name="ActivitiesListView">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical" Margin="0,0,0,10">
-                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
-                                        <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="120" Text="{Binding KeyCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource KeyCodeConverter}}" x:Name="KeyCodeTextbox" PreviewKeyDown="KeyCodeTextbox_PreviewKeyDown"/>
-                                        <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="80" IsReadOnly="True" Text="{Binding KeyAction}"/>
-                                        <Button VerticalAlignment="Center" Command="{Binding DataContext.RemoveActionCommand, ElementName=ActivitiesListView}" CommandParameter="{Binding}">
-                                            <Image Source="/Assets/Icons/Delete.svg" Width="20"/>
-                                        </Button>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Assets/Icons/Timer.svg" Width="18"/>
-                                        <TextBox Style="{StaticResource TextBoxPlain}" TextWrapping="Wrap" Margin="0,0,10,0" TextAlignment="Center" Width="70" Height="23" FontSize="10" Text="{Binding Delay, Mode=TwoWay, Converter={StaticResource TimeSpanToStringConverter}, ConverterParameter='mm\\:ss\\.fff'}"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
-            </Border>
+                <!--Activities-->
+                <controls:Activities
+                Grid.Column="2"
+                Margin="5"/>
+            </Grid>
 
             <!--Settings-->
-            <Border Style="{StaticResource CardBorder}" Grid.Row="0" Grid.Column="2" Margin="5">
-                <Grid>
-                    <ToggleButton Width="150" Command="{Binding StartLoopCommand}" IsChecked="{Binding IsPlaying}">Start!</ToggleButton>
-                </Grid>
-            </Border>
-
-            <controls:Applications DataContext="{Binding}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" IsEnabled="{Binding Source={StaticResource MainViewModel}, Path=IsPlaying, Converter={StaticResource BooleanInversionConverter}}"/>
+            <Grid Grid.Row="1">
+                <controls:Settings
+                Margin="5"/>
+            </Grid>
         </Grid>
     </Grid>
-
 </Window>

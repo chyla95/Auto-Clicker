@@ -9,8 +9,8 @@
 
     RequestedTheme="Dark"
     xmlns:Converters="using:AC.View.Converters"
-    xmlns:viewModels="using:AC.ViewModel.ViewModels"
-    >
+    xmlns:viewModels="using:AC.ViewModel.ViewModels">
+    
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,7 +25,12 @@
             
             <Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter"/>
             <Converters:KeyCodeConverter x:Key="KeyCodeConverter"/>
-            <Converters:BooleanInversionConverter x:Key="BooleanInversionConverter"/>            
+            <Converters:BooleanInversionConverter x:Key="BooleanInversionConverter"/>
+            <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <Converters:ValueConverterGroup x:Key="InversedBooleanToVisibilityConverter">
+                <Converters:BooleanInversionConverter/>
+                <Converters:BooleanToVisibilityConverter/>
+            </Converters:ValueConverterGroup>
             
             <viewModels:MainViewModel x:Key="MainViewModel"/>            
         </ResourceDictionary>
