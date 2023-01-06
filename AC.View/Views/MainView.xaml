@@ -27,7 +27,7 @@
         <!--Content-->
         <Grid Grid.Row="1" DataContext="{StaticResource MainViewModel}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" MinHeight="400"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
