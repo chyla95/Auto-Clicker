@@ -12,8 +12,10 @@ namespace AC.ViewModel.ViewModels
 
         public bool IsPlaying
         {
-            get { 
-                return Model.IsPlaying; }
+            get
+            {
+                return Model.IsPlaying;
+            }
             set
             {
                 Model.IsPlaying = value;
@@ -33,7 +35,7 @@ namespace AC.ViewModel.ViewModels
 
         private async void StartLoopCommandExecute(object? application)
         {
-            await Model.PlayToggle();
+            await Model.PlayRepeatedly();
         }
     }
 }

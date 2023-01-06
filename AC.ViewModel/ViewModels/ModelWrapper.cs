@@ -10,10 +10,10 @@ namespace AC.ViewModel.ViewModels
         protected ModelWrapper(TModel model)
         {
             Model = model;
-            Model.PropertyChanged += Model_PropertyChanged;
+            Model.PropertyChanged += PropagatePropertyChangedEventFromModelToViewModel;
         }
 
-        private void Model_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void PropagatePropertyChangedEventFromModelToViewModel(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             OnPropertyChanged(e.PropertyName);
         }

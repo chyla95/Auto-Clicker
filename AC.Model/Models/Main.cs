@@ -10,7 +10,20 @@ namespace AC.Model.Models
 
         public MacroList MacroList { get; }
         public ApplicationList ApplicationList { get; }
-        public bool IsPlaying { get; set; } = false;
+
+        private bool _isPlaying;
+        public bool IsPlaying
+        {
+            get
+            {
+                return _isPlaying;
+            }
+            set
+            {
+                _isPlaying = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Main()
         {
@@ -44,7 +57,7 @@ namespace AC.Model.Models
             }
             IsPlaying = false;
         }
-        public async Task PlayToggle()
+        public async Task PlayRepeatedly()
         {
             _cts = new();
             if (IsPlaying)
