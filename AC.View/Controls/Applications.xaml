@@ -20,7 +20,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" Margin="10" HorizontalAlignment="Stretch">
+            <Button Grid.Row="0" Margin="10" HorizontalAlignment="Stretch" Command="{Binding RefreshApplicationsCommand}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Assets/Icons/Refresh.svg" Width="20"/>
                     <TextBlock Text="Refresh" Margin="5,0,0,0"/>

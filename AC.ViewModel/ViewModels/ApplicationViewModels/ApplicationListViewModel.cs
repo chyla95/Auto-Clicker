@@ -7,9 +7,17 @@ namespace AC.ViewModel.ViewModels.ApplicationViewModels
     {
         public SynchronizableCollection<ApplicationViewModel, Application> Applications { get; }
 
+        public RelayCommand<object> RefreshApplicationsCommand { get; }
+
         public ApplicationListViewModel(ApplicationList model) : base(model)
         {
             Applications = new(Model.Applications);
+            RefreshApplicationsCommand = new RelayCommand<object>(RefreshApplicationsCommandExecute);
+        }
+
+        private void RefreshApplicationsCommandExecute(object? o)
+        {
+            Model.RefreshApplications();
         }
     }
 }

@@ -42,5 +42,22 @@ namespace AC.Model.Models.Application
             
             return filteredApplications;
         }
+        public void RefreshApplications()
+        {
+            IEnumerable<Application> refreshedApplications = GetFilteredApplications(_keyboardEmulator);
+            Applications.Clear();
+
+            IEnumerable<Application> persistedApplications = Applications.Where(a => refreshedApplications.Contains(a));
+            foreach (Application application in persistedApplications)
+            {
+                Applications.Add(application);
+            }
+
+            IEnumerable<Application> newApplications = refreshedApplications.Where(na => !Applications.Contains(na));
+            foreach (Application application in newApplications)
+            {
+                Applications.Add(application);
+            }
+        }
     }
 }
