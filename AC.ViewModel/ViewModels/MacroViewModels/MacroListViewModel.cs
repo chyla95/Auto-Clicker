@@ -1,4 +1,5 @@
-﻿using AC.Model.Models.Macro;
+﻿using System.Diagnostics;
+using AC.Model.Models.Macro;
 using AC.ViewModel.Utilities;
 
 namespace AC.ViewModel.ViewModels.MacroViewModels
@@ -29,12 +30,14 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
 
         public RelayCommand<object> AddMacroCommand { get; }
         public RelayCommand<MacroViewModel> RemoveMacroCommand { get; }
+        public RelayCommand<ActivityViewModel> UpdateMacroCommand { get; }
 
         public MacroListViewModel(MacroList model) : base(model)
         {
             Macros = new(Model.Macros);
             AddMacroCommand = new RelayCommand<object>(AddMacroCommandExecute);
             RemoveMacroCommand = new RelayCommand<MacroViewModel>(RemoveMacroCommandExecute);
+            UpdateMacroCommand = new RelayCommand<ActivityViewModel>(UpdateMacroCommandExecute);
         }
 
         private void AddMacroCommandExecute(object? o)
@@ -45,8 +48,15 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
         private void RemoveMacroCommandExecute(MacroViewModel? macro)
         {
             if (macro == null) throw new NullReferenceException(nameof(macro));
-            if (macro == SelectedMacro) SelectedMacro = null;
-            Macros.Remove(macro);
+            Model.RemoveMacro(macro.Model);
+        }
+        private void UpdateMacroCommandExecute(ActivityViewModel? activity)
+        {
+            if (activity == null) throw new NullReferenceException(nameof(activity));
+            foreach (ActivityViewModel a in SelectedMacro.Activities)
+            {
+                if (a.Id == activity.Id) a.KeyCode = activity.KeyCode;
+            }
         }
     }
 }
