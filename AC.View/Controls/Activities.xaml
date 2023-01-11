@@ -13,6 +13,7 @@
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:viewmodels="using:AC.ViewModel.ViewModels" 
+    xmlns:Converters="using:AC.View.Converters"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}">
 
     <Border Style="{StaticResource CardBorder}">
@@ -32,7 +33,7 @@
 
             <ListView x:Name="ActivitiesListView"
                     Grid.Row="1"
-                    ItemsSource="{Binding Activities}"
+                    ItemsSource="{Binding Activities, Mode=TwoWay}"
                     SelectionMode="Single"
                     CanDragItems="True"
                     CanReorderItems="True"
@@ -117,16 +118,17 @@
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0,0,0">
+                        <StackPanel.Resources>
+                            <Converters:EnumToItemsSourceConverter x:Key="EnumToItemsSourceConverter"/>
+                        </StackPanel.Resources>
                         <TextBlock 
                         Text="Behaviour:"
                         FontSize="12"
                         Margin="0,0,0,3"/>
-                        <ComboBox HorizontalAlignment="Stretch">
-                            <ComboBox.Items>
-                                <ComboBoxItem Content="Precise"></ComboBoxItem>
-                                <ComboBoxItem Content="Randomized"></ComboBoxItem>
-                            </ComboBox.Items>
-                        </ComboBox>
+                        <ComboBox 
+                            HorizontalAlignment="Stretch" 
+                            ItemsSource="{Binding Behaviour, Converter={StaticResource EnumToItemsSourceConverter}, UpdateSourceTrigger=PropertyChanged}" 
+                            SelectedItem="{Binding Behaviour, Mode=TwoWay}"/>
                     </StackPanel>
                 </Grid>
             </Border>

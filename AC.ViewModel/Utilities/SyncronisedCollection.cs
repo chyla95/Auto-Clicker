@@ -47,41 +47,14 @@ namespace AC.ViewModel.Utilities
             if (!_isSyncActive) return;
             _isSyncActive = false;
 
-            switch (e.Action)
+
+            _modelCollection.Clear();
+            foreach (TViewModel item in Items)
             {
-                case NotifyCollectionChangedAction.Add:
-                    foreach (object newItem in e.NewItems)
-                    {
-                        TViewModel viewModel = (TViewModel)newItem;
-                        TModel model = viewModel.Model;
-                        _modelCollection.Add(model);
-                    }
-                    break;
-
-                case NotifyCollectionChangedAction.Remove:
-                    foreach (object _ in e.OldItems)
-                    {
-                        TModel model = _modelCollection.ElementAt(e.OldStartingIndex);
-                        _modelCollection.Remove(model);
-                    }
-                    break;
-
-                case NotifyCollectionChangedAction.Reset:
-                    _modelCollection.Clear();
-                    if (e.NewItems == null) break;
-                    foreach (object newItem in e.NewItems)
-                    {
-                        TViewModel viewModel = CreateViewModel((TModel)newItem);
-                        TModel model = viewModel.Model;
-                        _modelCollection.Add(model);
-                    }
-                    break;
-
-                default:
-                    throw new NotImplementedException($"Unsuported Action {e.Action}!");
-                    // https://stackoverflow.com/a/2177659/20798039
-                    // https://stackoverflow.com/a/15831128/20798039
+                _modelCollection.Add(item.Model);
             }
+            // https://stackoverflow.com/a/2177659/20798039
+            // https://stackoverflow.com/a/15831128/20798039
 
             _isSyncActive = true;
         }

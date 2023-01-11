@@ -18,6 +18,17 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
                 OnPropertyChanged();
             }
         }
+        public MacroBehaviour Behaviour
+        {
+            get
+            {
+                return Model.Behaviour;
+            }
+            set
+            {
+                Model.Behaviour = value;
+            }
+        }
         public SynchronizableCollection<ActivityViewModel, Activity> Activities { get; }
 
         public RelayCommand<object> AddKeyboardActionCommand { get; }
@@ -34,7 +45,7 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
         private void AddKeyboardActionCommandExecute(object? o)
         {
             int actionId = 1;
-            if(Activities.Count > 0) actionId = Activities.OrderBy(a => a.Id).Last().Id + 1;
+            if (Activities.Count > 0) actionId = Activities.OrderBy(a => a.Id).Last().Id + 1;
 
             Activity keyboardAction_keyDown = new KeyboardActivity(actionId, TimeSpan.FromMilliseconds(100), KeyCode.None, KeyAction.KeyDown);
             Activity keyboardAction_keyUp = new KeyboardActivity(actionId, TimeSpan.FromMilliseconds(100), KeyCode.None, KeyAction.KeyUp);

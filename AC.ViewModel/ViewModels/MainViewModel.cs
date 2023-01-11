@@ -23,19 +23,20 @@ namespace AC.ViewModel.ViewModels
             }
         }
 
-        public RelayCommand<object> StartLoopCommand { get; }
+        public RelayCommand<object> TogglePlayCommand { get; }
 
         public MainViewModel() : base(new Main())
         {
-            StartLoopCommand = new RelayCommand<object>(StartLoopCommandExecute);
+            TogglePlayCommand = new RelayCommand<object>(TogglePlayCommandExecute);
 
             MacroList = new(Model.MacroList);
             ApplicationList = new(Model.ApplicationList);
         }
 
-        private async void StartLoopCommandExecute(object? application)
+        private async void TogglePlayCommandExecute(object? application)
         {
-            await Model.PlayRepeatedly();
+            if(!IsPlaying) await Model.PlayRepeatedly();
+            else Model.StopPlaying();
         }
     }
 }
