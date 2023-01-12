@@ -101,26 +101,10 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,5,0">
-                        <TextBlock 
-                        Text="Injection method:"
-                        FontSize="12"
-                        Margin="0,0,0,3"/>
-                        <ComboBox HorizontalAlignment="Stretch">
-                            <ComboBox.Items>
-                                <ComboBoxItem Content="Post"></ComboBoxItem>
-                                <ComboBoxItem Content="Send"></ComboBoxItem>
-                                <ComboBoxItem Content="Foreground"></ComboBoxItem>
-                            </ComboBox.Items>
-                        </ComboBox>
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0,0,0">
-                        <StackPanel.Resources>
-                            <Converters:EnumToItemsSourceConverter x:Key="EnumToItemsSourceConverter"/>
-                        </StackPanel.Resources>
+                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,0,0">
                         <TextBlock 
                         Text="Behaviour:"
                         FontSize="12"
@@ -129,6 +113,28 @@
                             HorizontalAlignment="Stretch" 
                             ItemsSource="{Binding Behaviour, Converter={StaticResource EnumToItemsSourceConverter}, UpdateSourceTrigger=PropertyChanged}" 
                             SelectedItem="{Binding Behaviour, Mode=TwoWay}"/>
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0,0,0">
+                        <TextBlock 
+                        Text="Method:"
+                        FontSize="12"
+                        Margin="0,0,0,3"/>
+                        <ComboBox 
+                            HorizontalAlignment="Stretch"
+                            ItemsSource="{Binding KeyPressMethod, Converter={StaticResource EnumToItemsSourceConverter}, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedItem="{Binding KeyPressMethod, Mode=TwoWay}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Vertical" Margin="5,0,0,0">
+                        <TextBlock 
+                        Text="Pivot:"
+                        FontSize="12"
+                        Margin="0,0,0,3"/>
+                        <ComboBox 
+                            HorizontalAlignment="Stretch" 
+                            ItemsSource="{Binding Pivot, Converter={StaticResource EnumToItemsSourceConverter}, UpdateSourceTrigger=PropertyChanged}" 
+                            SelectedItem="{Binding Pivot, Mode=TwoWay}"/>
                     </StackPanel>
                 </Grid>
             </Border>

@@ -68,5 +68,27 @@ namespace AC.Model.Models.Application
 
             key.Send(Handle, keyAction);
         }
+
+        public void PressKey(KeyCode keyCode, KeyAction keyAction, KeyPressMethod keyInjectionMethod)
+        {
+            IKey? key = _keyboardEmulator.GetKey(keyCode);
+            if (key == null) throw new Exception("Unsupported key!");
+
+            switch (keyInjectionMethod)
+            {
+                case KeyPressMethod.Post:
+                    key.Post(Handle, keyAction);
+                    break;
+                case KeyPressMethod.Send:
+                    key.Send(Handle, keyAction);
+                    break;
+            }
+        }
+    }
+
+    public enum KeyPressMethod
+    {
+        Post,
+        Send
     }
 }

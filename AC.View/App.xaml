@@ -27,6 +27,7 @@
             <Converters:KeyCodeConverter x:Key="KeyCodeConverter"/>
             <Converters:BooleanInversionConverter x:Key="BooleanInversionConverter"/>
             <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <Converters:EnumToItemsSourceConverter x:Key="EnumToItemsSourceConverter"/>
             <Converters:ValueConverterGroup x:Key="InversedBooleanToVisibilityConverter">
                 <Converters:BooleanInversionConverter/>
                 <Converters:BooleanToVisibilityConverter/>

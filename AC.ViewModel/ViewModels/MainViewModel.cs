@@ -5,7 +5,7 @@ using AC.ViewModel.ViewModels.MacroViewModels;
 
 namespace AC.ViewModel.ViewModels
 {
-    public class MainViewModel : ModelWrapper<Main>
+    public class MainViewModel : ModelWrapper<AutoClicker>
     {
         public MacroListViewModel MacroList { get; }
         public ApplicationListViewModel ApplicationList { get; }
@@ -25,7 +25,7 @@ namespace AC.ViewModel.ViewModels
 
         public RelayCommand<object> TogglePlayCommand { get; }
 
-        public MainViewModel() : base(new Main())
+        public MainViewModel() : base(new AutoClicker())
         {
             TogglePlayCommand = new RelayCommand<object>(TogglePlayCommandExecute);
 

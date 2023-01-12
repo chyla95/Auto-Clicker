@@ -1,4 +1,5 @@
-﻿using AC.Model.Models.Macro;
+﻿using AC.Model.Models.Application;
+using AC.Model.Models.Macro;
 using AC.ViewModel.Utilities;
 using PeripheralDeviceEmulator.Constants;
 
@@ -29,6 +30,29 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
                 Model.Behaviour = value;
             }
         }
+        public KeyPressMethod KeyPressMethod
+        {
+            get
+            {
+                return Model.KeyPressMethod;
+            }
+            set
+            {
+                Model.KeyPressMethod = value;
+            }
+        }
+        public Pivot Pivot
+        {
+            get
+            {
+                return Model.Pivot;
+            }
+            set
+            {
+                Model.Pivot = value;
+            }
+        }
+
         public SynchronizableCollection<ActivityViewModel, Activity> Activities { get; }
 
         public RelayCommand<object> AddKeyboardActionCommand { get; }
