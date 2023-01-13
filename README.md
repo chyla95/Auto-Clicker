@@ -3,6 +3,7 @@
 An auto-clicker application that is capable of sending keystrokes to background applications.
 
 **Project Status**: In Development
+
 **Note**: This is an experimental, first release of the project (a proof of concept), and it still requires a lot of work. Expect to encounter rough edges and unfinished features!
 
 ## Features
