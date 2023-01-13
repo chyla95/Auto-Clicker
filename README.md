@@ -1,7 +1,7 @@
 # Auto-Clicker
 An auto-clicker application that is capable of sending keystrokes to background applications.
 
-**Project Status**: Functional / In Development
+**Project Status**: In Development
 
 ## Features
 -   Ability to send keystrokes to background applications
