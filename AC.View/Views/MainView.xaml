@@ -12,7 +12,7 @@
     
     xmlns:controls="using:AC.View.Controls">
 
-    <Grid Background="{StaticResource ApplicationBackgroundColor}" Padding="5">
+    <Grid x:Name="MainViewGrid" Background="{StaticResource ApplicationBackgroundColor}" Padding="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -25,7 +25,7 @@
         </StackPanel>
 
         <!--Content-->
-        <Grid Grid.Row="1" DataContext="{StaticResource MainViewModel}">
+        <Grid Grid.Row="1" DataContext="{x:Bind MainViewModel}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="400"/>
                 <RowDefinition Height="auto"/>

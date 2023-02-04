@@ -72,7 +72,7 @@ namespace AC.ViewModel.ViewModels.MacroViewModels
             if (Activities.Count > 0) actionId = Activities.OrderBy(a => a.Id).Last().Id + 1;
 
             Activity keyboardAction_keyDown = new KeyboardActivity(actionId, TimeSpan.FromMilliseconds(100), KeyCode.None, KeyAction.KeyDown);
-            Activity keyboardAction_keyUp = new KeyboardActivity(actionId, TimeSpan.FromMilliseconds(100), KeyCode.None, KeyAction.KeyUp);
+            Activity keyboardAction_keyUp = new KeyboardActivity(actionId, TimeSpan.FromMilliseconds(3000), KeyCode.None, KeyAction.KeyUp);
             Activities.Add(new ActivityViewModel(keyboardAction_keyDown));
             Activities.Add(new ActivityViewModel(keyboardAction_keyUp));
         }

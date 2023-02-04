@@ -17,14 +17,14 @@
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}">
 
     <Border Style="{StaticResource CardBorder}">
-        <Grid DataContext="{Binding MacroList.SelectedMacro}">
+        <Grid Name="MacroListGrid" DataContext="{Binding MacroList}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" Margin="10" HorizontalAlignment="Stretch" Command="{Binding AddKeyboardActionCommand}">
+            <Button Grid.Row="0" Margin="10" HorizontalAlignment="Stretch" Command="{Binding SelectedMacro.AddKeyboardActionCommand}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Assets/Icons/Keyboard.svg" Width="20"/>
                     <TextBlock Text="Add Action" Margin="5,0,0,0"/>
@@ -33,6 +33,7 @@
 
             <ListView x:Name="ActivitiesListView"
                     Grid.Row="1"
+                    DataContext="{Binding SelectedMacro}"
                     ItemsSource="{Binding Activities, Mode=TwoWay}"
                     SelectionMode="Single"
                     CanDragItems="True"
@@ -58,7 +59,7 @@
                                     PreviewKeyDown="KeyCodeTextbox_PreviewKeyDown">                                    
                                     <Interactivity:Interaction.Behaviors>
                                         <Core:EventTriggerBehavior EventName="LostFocus">
-                                            <Core:InvokeCommandAction Command="{Binding Source={StaticResource MainViewModel},Path=MacroList.UpdateMacroCommand}" CommandParameter="{Binding}"/>
+                                            <Core:InvokeCommandAction Command="{Binding ElementName=MacroListGrid, Path=DataContext.UpdateMacroCommand}" CommandParameter="{Binding}"/>
                                         </Core:EventTriggerBehavior>
                                     </Interactivity:Interaction.Behaviors>
                                 </TextBox>
@@ -97,7 +98,7 @@
             </ListView>
 
             <Border Grid.Row="2" Padding="5" Style="{StaticResource CardBorder}" Background="{StaticResource ApplicationBackgroundColor}">
-                <Grid>
+                <Grid DataContext="{Binding SelectedMacro}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>

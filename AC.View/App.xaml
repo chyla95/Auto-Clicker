@@ -8,8 +8,7 @@
     xmlns:local="using:AC.View"       
 
     RequestedTheme="Dark"
-    xmlns:Converters="using:AC.View.Converters"
-    xmlns:viewModels="using:AC.ViewModel.ViewModels">
+    xmlns:Converters="using:AC.View.Converters">
     
     <Application.Resources>
         <ResourceDictionary>
@@ -31,9 +30,7 @@
             <Converters:ValueConverterGroup x:Key="InversedBooleanToVisibilityConverter">
                 <Converters:BooleanInversionConverter/>
                 <Converters:BooleanToVisibilityConverter/>
-            </Converters:ValueConverterGroup>
-            
-            <viewModels:MainViewModel x:Key="MainViewModel"/>            
+            </Converters:ValueConverterGroup>            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

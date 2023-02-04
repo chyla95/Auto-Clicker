@@ -12,9 +12,8 @@
     xmlns:viewmodels="using:AC.ViewModel.ViewModels" 
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}">
 
-    <Grid DataContext="{StaticResource MainViewModel}">
-        <ToggleButton 
-            IsChecked="{Binding IsPlaying}"
+    <Grid>
+        <Button 
             Command="{Binding TogglePlayCommand}" 
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -41,10 +40,11 @@
                     Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <TextBlock 
                     Text="Stop" 
+                    Foreground="#ff0063"
                     FontWeight="Bold"
                     VerticalAlignment="Center"
                     Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </StackPanel>
-        </ToggleButton>
+        </Button>
     </Grid>
 </UserControl>

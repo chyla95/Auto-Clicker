@@ -1,5 +1,6 @@
 ﻿using AC.Model.Models.Application;
 using AC.Model.Models.Macro;
+using PeripheralDeviceEmulator.Constants;
 using PeripheralDeviceEmulator.Keyboard;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -123,13 +124,22 @@ namespace AC.Model.Models
 
         public async Task PlayOnce(CancellationToken cancellationToken)
         {
+            if (!ApplicationList.Applications.Any(a => a.IsSelected))
+                throw new Exception("No applications are selected!");
+            if (MacroList.SelectedMacro == null)
+                throw new Exception("No macro is selected!");
+            if (!MacroList.SelectedMacro.Activities.Any())
+                throw new Exception("Action list is empty!");
+            if (MacroList.SelectedMacro.Activities.Any(a => a.KeyCode == KeyCode.None))
+                throw new Exception($"Action list contains undefined keystrokes! \nNo action should have value of \"None\".");
+
             IsPlaying = true;
 
             Macro.Macro? selectedMacro = MacroList.SelectedMacro;
-            if (selectedMacro == null) throw new Exception("No macro is selected!");
+            if (selectedMacro == null) return; // 
 
             IEnumerable<Application.Application> selectedApplications = ApplicationList.Applications.Where(x => x.IsSelected);
-            if (!selectedApplications.Any()) throw new Exception("No Apps selected!");
+            if (!selectedApplications.Any()) return;
 
             switch (selectedMacro.Pivot)
             {

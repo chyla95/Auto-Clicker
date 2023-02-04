@@ -1,38 +1,36 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using System;
+using AC.Model.Models;
+using AC.View.Utilities.Services;
+using AC.ViewModel.ViewModels;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using PeripheralDeviceEmulator.Constants;
 
 namespace AC.View.Views
 {
     public sealed partial class MainView : Window
     {
+        public MainViewModel MainViewModel { get; }
+
         public MainView()
         {
             InitializeComponent();
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(TitleBar);
+
+            MainViewGrid.Loaded += MainViewGrid_Loaded;
+            MainViewGrid.IsHitTestVisible = false;
+
+            AutoClicker autoClicker = new();
+            DialogService dialogService = new(Content.XamlRoot);
+            MainViewModel = new MainViewModel(autoClicker, dialogService);
         }
 
-        private void KeyCodeTextbox_PreviewKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void MainViewGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-
-            KeyCode keyCode = KeyCode.None;
-            try
-            {
-                keyCode = (KeyCode)((int)e.Key);
-            }
-            catch (Exception) { }
-
-            textBox.Text = keyCode.ToString();
-            e.Handled = true;
-
-            textBox.IsEnabled = false;
-            textBox.IsEnabled = true;
+            DialogService dialogService = new(Content.XamlRoot);
+            MainViewModel.DialogService = dialogService;
+            MainViewGrid.IsHitTestVisible = true;
         }
     }
 }

@@ -14,7 +14,7 @@
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}">
 
     <Border Style="{StaticResource CardBorder}">
-        <Grid DataContext="{Binding MacroList}">
+        <Grid x:Name="MacroListGrid" DataContext="{Binding MacroList}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -48,7 +48,7 @@
                                 TextWrapping="Wrap"/>                             
                             <Button 
                                 Grid.Column="1"
-                                Command="{Binding Source={StaticResource MainViewModel}, Path=MacroList.RemoveMacroCommand}" 
+                                Command="{Binding ElementName=MacroListGrid, Path=DataContext.RemoveMacroCommand}" 
                                 CommandParameter="{Binding}"
                                 VerticalAlignment="Center">
                                 <Image Source="/Assets/Icons/Delete.svg" Width="20"/>
